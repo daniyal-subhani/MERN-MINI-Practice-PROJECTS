@@ -6,6 +6,8 @@
  - Typescript
  - Shadcn-ui
  - lucide-react
+ - prisma
+ - prisma-studio
 
  ### Prisma commands i used in project
 - `pnpm add @prisma/client` - Install Prisma Client to interact with DB in code  
