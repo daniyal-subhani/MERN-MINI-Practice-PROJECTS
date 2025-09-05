@@ -20,31 +20,32 @@ import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, InitialModelSchema } from "@/types";
-import { log } from "console";
+import { FileUpload } from "@/components/file-upload";
 
 const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
-  }, [])
+  }, []);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       serverName: "",
       serverImage: "",
-    }
+    },
   });
- const isLoading = form.formState.isSubmitting;
-  const onSubmit = (values : InitialModelSchema) => {
+  const isLoading = form.formState.isSubmitting;
+  const onSubmit = (values: InitialModelSchema) => {
     console.log(values);
-    
-  }
-  
-  if(!isMounted) return null; 
-  
+  };
+
+  if (!isMounted) return null;
+
   return (
     <Dialog open>
-      <DialogContent className="bg-white text-black p-0 overflow-hidden">
+      <div className="relative">
+
+      <DialogContent className="bg-white text-black p-0 overflow-hidden absolute top-0 bottom-0 left-0 right-0 m-auto w-full max-w-lg h-fit">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl font-bold text-center">
             Customize Your Server
@@ -57,13 +58,19 @@ const InitialModal = () => {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center text-center ">
                 <FormField
                   control={form.control}
                   name="serverImage"
                   render={({ field }) => (
                     <FormItem>
-                      <FormControl></FormControl>
+                      <FormControl>
+                        <FileUpload
+                          endpoint="serverImage"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
                     </FormItem>
                   )}
                 />
@@ -88,11 +95,14 @@ const InitialModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant={"primary"} disabled={isLoading}>Create</Button>
+              <Button variant={"primary"} disabled={isLoading}>
+                Create
+              </Button>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
+      </div>
     </Dialog>
   );
 };
