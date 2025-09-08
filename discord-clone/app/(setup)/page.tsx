@@ -1,24 +1,7 @@
-import InitialModal from '@/components/modals/initial-modal';
-import { db } from '@/lib/db';
-import { getCurrentUser } from '@/lib/initial-profile'
-import { redirect } from 'next/navigation';
-import React from 'react'
+import Image from "next/image";
 
-const SetupPage = async () => {
-  const profile = await getCurrentUser();
-  const server = await db.server.findFirst({
-    where: {
-      members: {
-        some: {
-          profileId: profile.id
-        }
-      }
-    }
-  })
-  if(server) {
-    return redirect(`/servers/${server.id}`);
-  }
-  return <InitialModal />
+export default function Home() {
+  return (
+   <div className="text-center">Hello This is homepage.</div>
+  );
 }
-
-export default SetupPage
