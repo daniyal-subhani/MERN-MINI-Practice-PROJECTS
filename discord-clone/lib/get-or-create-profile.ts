@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { db } from "./db-hot-reloading";
 
 
-const getOrCreateProfile = async () => {
+export const getOrCreateProfile = async () => {
     const user = await currentUser();
     if(!user) {
         return (
