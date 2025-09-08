@@ -1,0 +1,14 @@
+import { db } from "@/app/lib/db.reloading";
+import { auth } from "@clerk/nextjs/server";
+
+export const getCurrentProfile = async () => {
+  const { userId } = await auth();
+  if (!userId) return null;
+
+  const userProfile = await db.profile.findUnique({
+    where: {
+      userId,
+    },
+  });
+  return userProfile;
+};
