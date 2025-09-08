@@ -20,9 +20,9 @@ import { useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, InitialModelSchema } from "@/types";
-import { FileUpload } from "@/components/file-upload";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { FileUpload } from "../file-upload";
 
 const InitialModal = () => {
   const router = useRouter();
