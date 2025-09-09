@@ -24,9 +24,12 @@ import { FormData, formSchema } from "@/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadFile } from "../file-upload";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const InitialModal = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter()
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -41,6 +44,11 @@ const InitialModal = () => {
   const onSubmit = async (data: FormData) => {
     try {
       console.log("SUBMIT", data);
+      await axios.post("/api/servers", data)
+      form.reset();
+      router.refresh();
+      window.location.reload();
+      
     } catch (error) {
       console.log("ERROR", error);
     }
