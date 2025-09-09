@@ -1,13 +1,14 @@
 import { db } from "@/lib/db-hot-reloading";
-import { currentUser } from "@clerk/nextjs/server";
+import { getCurrentProfile } from "@/lib/getCurrent-profile";
 import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { v4 as uuid } from "uuid";
 
+
 export async function POST(req: Request) {
   try {
     const { name, imageUrl } = await req.json();
-    const profile = await currentUser();
+    const profile = await getCurrentProfile();
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }

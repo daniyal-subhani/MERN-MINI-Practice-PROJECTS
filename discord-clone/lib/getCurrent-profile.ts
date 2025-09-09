@@ -1,5 +1,6 @@
-import { db } from "@/app/lib/db.reloading";
+
 import { auth } from "@clerk/nextjs/server";
+import { db } from "./db-hot-reloading";
 
 export const getCurrentProfile = async () => {
   const { userId } = await auth();
