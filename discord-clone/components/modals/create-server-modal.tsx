@@ -26,9 +26,11 @@ import { UploadFile } from "../file-upload";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
+import { ModalProvider } from "../providers/modal-provider";
 
 const ServerModal = () => {
   const { isOpen, onClose, type } = useModal();
+  console.log("Navbar render — isOpen:", isOpen, "type:", type);
 
   const router = useRouter();
   const form = useForm<FormData>({
@@ -61,8 +63,8 @@ const ServerModal = () => {
 
   return (
     <Dialog open={isOpenModal} onOpenChange={handleClose}>
-      <div className="relative">
-        <DialogContent className="bg-white  text-black p-0 overflow-hidden absolute top-0 right-0 left-0 bottom-0 w-full h-fit mx-auto">
+      <div className="">
+        <DialogContent className="bg-white  text-black p-0 overflow-hidden ">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-center text-2xl font-bold">
               Customize your server

@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 
 const SetupPage = async() => {
+  
   const profile = await getOrCreateProfile();
   const server = await db.server.findFirst({
     where: {

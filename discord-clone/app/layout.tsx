@@ -26,28 +26,29 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <ClerkProvider>
-
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${cn(
-          geistSans.variable,
-          geistMono.variable,
-          "bg-white dark:bg-gray-700/50"
-        )} antialiased`}
-      >
-        <ThemeProvider
-          enableSystem
-          attribute={"class"}
-          defaultTheme="dark"
-          storageKey="discord_practice_proj"
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${cn(
+            geistSans.variable,
+            geistMono.variable,
+            "bg-white dark:bg-gray-700/50"
+          )} antialiased`}
         >
-          <ModalProvider  />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+          <ThemeProvider
+            enableSystem
+            attribute={"class"}
+            defaultTheme="dark"
+            storageKey="discord_practice_proj"
+          >
+           <ModalProvider />
+
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }
