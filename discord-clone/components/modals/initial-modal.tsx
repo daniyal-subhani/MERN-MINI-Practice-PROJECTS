@@ -61,8 +61,8 @@ const InitialModal = () => {
   }
   return (
     <Dialog open>
-      <div className="relative">
-        <DialogContent className="bg-white  text-black p-0 overflow-hidden absolute top-0 right-0 left-0 bottom-0 w-full h-fit mx-auto">
+      {/* <div className="relative"> */}
+        <DialogContent className="bg-white  text-black p-0 overflow-hidden ">
           <DialogHeader className="pt-8 px-6">
             <DialogTitle className="text-center text-2xl font-bold">
               Customize your server
@@ -122,7 +122,7 @@ const InitialModal = () => {
             </form>
           </Form>
         </DialogContent>
-      </div>
+      {/* </div> */}
     </Dialog>
   );
 };

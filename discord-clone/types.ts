@@ -1,3 +1,4 @@
+import { Member, Profile, Server } from "@prisma/client";
 import { z  } from "zod";
 
 export const formSchema = z.object({
@@ -6,3 +7,9 @@ export const formSchema = z.object({
 })
 
 export type FormData = z.infer<typeof formSchema>;
+
+
+export type ServerWithMembersWithProfiles = Server & {
+    members: (Member & {profile: Profile}
+)[]
+}
