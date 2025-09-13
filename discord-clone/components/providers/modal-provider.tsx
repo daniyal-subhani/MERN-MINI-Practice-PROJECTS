@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadFile } from "../file-upload";
 import { Input } from "../ui/input";
 import ServerModal from "../modals/create-server-modal";
+import InviteModal from "../modals/invite-modal";
 
 
 export const ModalProvider = () => {
@@ -50,6 +51,7 @@ export const ModalProvider = () => {
   return (
     <>
      <ServerModal />
+     <InviteModal />
     </>
   );
 };
