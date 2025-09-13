@@ -31,12 +31,11 @@ import InviteModal from "../modals/invite-modal";
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
   const { isOpen, onClose, type } = useModal();
-  console.log("Navbar render — isOpen:", isOpen, "type:", type);
+ 
 
   useEffect(() => {
     setIsMounted(true);
-    console.log("IsOpen", isOpen);
-    console.log(isMounted);
+  
   }, []);
   const form= useForm<FormData>({
     resolver: zodResolver(formSchema),
