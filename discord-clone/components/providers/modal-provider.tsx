@@ -26,6 +26,7 @@ import { UploadFile } from "../file-upload";
 import { Input } from "../ui/input";
 import ServerModal from "../modals/create-server-modal";
 import InviteModal from "../modals/invite-modal";
+import EditServerModal from "../modals/edit-server-modal";
 
 
 export const ModalProvider = () => {
@@ -51,6 +52,7 @@ export const ModalProvider = () => {
     <>
      <ServerModal />
      <InviteModal />
+     <EditServerModal />
     </>
   );
 };

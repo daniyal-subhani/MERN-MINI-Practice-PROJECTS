@@ -26,10 +26,11 @@ import { UploadFile } from "../file-upload";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
-import { ModalProvider } from "../providers/modal-provider";
+import { useEffect } from "react";
 
-const ServerModal = () => {
-  const { isOpen, onClose, type } = useModal();
+const EditServerModal = () => {
+  const { isOpen, onClose, type, data } = useModal();
+  const { server } = data;
 
   const router = useRouter();
   const form = useForm<FormData>({
@@ -39,11 +40,11 @@ const ServerModal = () => {
       imageUrl: "",
     },
   });
-  const isOpenModal = isOpen && type === "createServer";
+  const isOpenModal = isOpen && type === "editServer";
 
   const onSubmit = async (data: FormData) => {
     try {
-      await axios.post("/api/servers", data);
+      await axios.patch(`/api/servers/${server?.id}`, data);
       form.reset();
       router.refresh();
       window.location.reload();
@@ -53,7 +54,12 @@ const ServerModal = () => {
   };
 
   const isLoading = form.formState.isSubmitting;
-
+  useEffect(() => {
+    if (server) {
+      form.setValue("name", server.name);
+      form.setValue("imageUrl", server.imageUrl);
+    }
+  }, [form, server]);
   const handleClose = () => {
     form.reset();
     onClose();
@@ -116,7 +122,7 @@ const ServerModal = () => {
 
               <DialogFooter className="bg-gray-100 px-6 py-4">
                 <Button variant={"primary"} disabled={isLoading}>
-                  Create
+                  Save
                 </Button>
               </DialogFooter>
             </form>
@@ -127,4 +133,4 @@ const ServerModal = () => {
   );
 };
 
-export default ServerModal;
+export default EditServerModal;
