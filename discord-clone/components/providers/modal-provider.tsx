@@ -27,32 +27,31 @@ import { Input } from "../ui/input";
 import ServerModal from "../modals/create-server-modal";
 import InviteModal from "../modals/invite-modal";
 import EditServerModal from "../modals/edit-server-modal";
-
+import MemberModal from "../modals/manage-member-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
   const { isOpen, onClose, type } = useModal();
- 
 
   useEffect(() => {
     setIsMounted(true);
-  
   }, []);
-  const form= useForm<FormData>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: ""
-    }
-  })
+      imageUrl: "",
+    },
+  });
 
   if (!isMounted) return null;
 
   return (
     <>
-     <ServerModal />
-     <InviteModal />
-     <EditServerModal />
+      <ServerModal />
+      <InviteModal />
+      <EditServerModal />
+      <MemberModal />
     </>
   );
 };
