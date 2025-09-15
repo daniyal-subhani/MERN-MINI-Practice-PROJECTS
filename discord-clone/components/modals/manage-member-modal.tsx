@@ -7,23 +7,44 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuTrigger,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { useModal } from "@/hooks/use-modal-store";
 import { ServerWithMembersWithProfiles } from "@/types";
 import { UserAvatar } from "../user-avatar";
-import { ShieldAlert, ShieldCheck } from "lucide-react";
+import {
+  Check,
+  MoreVertical,
+  Shield,
+  ShieldAlert,
+  ShieldCheck,
+  ShieldQuestion,
+} from "lucide-react";
+import { ScrollArea } from "../ui/scroll-area";
+import { useState } from "react";
 
 const MemberModal = () => {
+  const [loading, setLoading] = useState("");
   const { isOpen, onClose, type, data, onOpen } = useModal();
 
   const isOpenModal = isOpen && type === "members";
 
   const { server } = data as { server: ServerWithMembersWithProfiles };
-  const roleWithIcon  = {
+  const roleWithIcon = {
     GUEST: null,
     MODERATOR: <ShieldCheck className="h-4 w-4  text-indigo-500" />,
-    ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />
-  }
+    ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
+  };
 
   return (
     <Dialog open={isOpenModal} onOpenChange={onClose}>
@@ -37,17 +58,53 @@ const MemberModal = () => {
               {server?.members.length} Members{" "}
             </DialogDescription>
           </DialogHeader>
-          <div>
+          <ScrollArea className="mt-8 max-h-[420px] pr-6">
             {server?.members.map((member) => (
-              <div key={member.id} className="flex">
+              <div key={member.id} className="flex items-center gap-x-2 mb-6">
                 <UserAvatar src={member.profile?.imageUrl} />
-                <div>
-                  {member.profile.name}
-                  {roleWithIcon[member.role]}
+                <div className="flex flex-col gap-y-1">
+                  <div className="text-xs font-semibold flex items-center gap-x-1">
+                    {member.profile.name}
+                    {roleWithIcon[member.role]}
+                  </div>
+                  <p>{member.profile?.email}</p>
                 </div>
+                {server.profileId !== member.profileId && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <MoreVertical className="w-4 h-4 text-zinc-500" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent side="left">
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
+                          <ShieldQuestion className="h-4 w-4 mr-2" />
+                          <span>Role</span>
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuPortal>
+                          <DropdownMenuSubContent>
+                            <DropdownMenuItem>
+                              <Shield className="w-4 h-4 mr-2" />
+                              GUEST
+                              {member.role === "GUEST" && (
+                                <Check className="w-4 h-4 ml-auto" />
+                              )}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <Shield className="w-4 h-4 mr-2" />
+                              MODERATOR
+                              {member.role === "MODERATOR" && (
+                                <Check className="w-4 h-4 ml-auto" />
+                              )}
+                            </DropdownMenuItem>
+                          </DropdownMenuSubContent>
+                        </DropdownMenuPortal>
+                      </DropdownMenuSub>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
               </div>
             ))}
-          </div>
+          </ScrollArea>
         </DialogContent>
       </div>
     </Dialog>
