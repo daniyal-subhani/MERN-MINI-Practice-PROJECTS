@@ -51,6 +51,25 @@ const MemberModal = () => {
     ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
   };
 
+  const onKick = async (memberId: string) => {
+    try {
+      setLoadingId(memberId);
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        },
+      });
+      const response = await axios.delete(url);
+      router.refresh();
+      onOpen("members", { server: response.data });
+    } catch (err) {
+      console.log("OnKick Error", err);
+    } finally {
+      setLoadingId("");
+    }
+  };
+
   const onRoleChange = async (memberId: string, role: string) => {
     try {
       setLoadingId(memberId);
@@ -79,11 +98,11 @@ const MemberModal = () => {
               Manage Members
             </DialogTitle>
             <DialogDescription className="text-center text-zinc-500">
-              {server?.members.length} Members{" "}
+              {server?.members?.length} Members{" "}
             </DialogDescription>
           </DialogHeader>
           <ScrollArea className="mt-8 max-h-[420px] pr-6">
-            {server?.members.map((member) => (
+            {server?.members?.map((member) => (
               <div key={member.id} className="flex items-center gap-x-2 mb-6">
                 <UserAvatar src={member.profile?.imageUrl} />
                 <div className="flex flex-col gap-y-1">
@@ -136,7 +155,7 @@ const MemberModal = () => {
                             </DropdownMenuPortal>
                           </DropdownMenuSub>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => onKick(member.id)}>
                             <Gavel className="h-4 w-4 mr-2" />
                             Kick
                           </DropdownMenuItem>
