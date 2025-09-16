@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
+import qs from "query-string"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -29,7 +29,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UploadFile } from "../file-upload";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import { ModalProvider } from "../providers/modal-provider";
 import { ChannelType } from "@prisma/client";
@@ -45,6 +45,7 @@ const CreateChannelModal = () => {
   const { isOpen, onClose, type } = useModal();
 
   const router = useRouter();
+  const params = useParams()
   const form = useForm<FormChannelData>({
     resolver: zodResolver(formChannelSchema),
     defaultValues: {
@@ -56,10 +57,16 @@ const CreateChannelModal = () => {
 
   const onSubmit = async (data: FormChannelData) => {
     try {
-      await axios.post("/api/servers", data);
+      const url = qs.stringifyUrl({
+        url: `/api/channels`,
+        query: {
+          serverId: params?.serverId
+        }
+      })
+      await axios.post(url, data);
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose()
     } catch (error) {
       console.log("ERROR", error);
     }
